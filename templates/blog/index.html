@@ -1,0 +1,28 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block title %} Index Page {% endblock title %}
+
+
+{% block content %}
+    <br>
+    <div class="container">
+    <h1> All Feeds </h1>
+    {% for post in news %}
+        <div class="row">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text">{{ post.description|truncatechars:20 }}</p>
+            <a href="#" class="btn btn-primary">Go to post</a>
+          </div>
+        </div>
+        </div>
+        <br>
+    {% endfor %}
+    </div>
+{% endblock content %}
+
+
+
+
