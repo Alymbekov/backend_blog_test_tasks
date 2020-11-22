@@ -1,0 +1,20 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block title %} Blog {% endblock title %}
+
+
+{% block content %}
+    <h1> My blog </h1>
+    {% for blog in object_list %}
+        <div class="row">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ blog.title }}</h5>
+          </div>
+        </div>
+        </div>
+        <br>
+    {% endfor %}
+
+{% endblock content %}

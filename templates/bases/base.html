@@ -27,7 +27,10 @@
         <a class="nav-link {% if url_name == 'follow_blog' %}active{% endif %}" href="{% url 'blog:follow_blog' %}">Blogs I follow </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {% if url_name == 'all_blogs' %}active{% endif %}" href="{% url 'blog:all_blogs' %}">All Blogs</a>
+        <a class="nav-link {% if url_name == 'all_blogs' %}active{% endif %}" href="{% url 'blog:all_blog' %}">All Blogs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if url_name == 'my_blog' %}active{% endif %}" href="{% url 'blog:my_blog' %}">My blog</a>
       </li>
         {% endwith %}
 
