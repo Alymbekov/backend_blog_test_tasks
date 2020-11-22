@@ -1,29 +1,38 @@
 {% extends 'bases/base.html' %}
 {% load static %}
 
-{% block title %} All blogs {% endblock title %}
+{% block title %} All blog {% endblock title %}
 
 
 {% block content %}
 
-    <h1>All Blogs </h1>
+    <h1>All Blog </h1>
     {% for blog in object_list %}
         <div class="row">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">{{ blog.title }}</h5>
+              {% if blog.follower_set.all %}
               {% for follower in blog.follower_set.all %}
                   {% if  user.username  ==  follower.user.username %}
-                      <a href="#" class="btn btn-primary">UnFollow</a>
-                  {% else %}
-                      {% if user == blog.author %}
-                          <p>This is My Post</p>
-                            <a href="#" class="btn btn-primary">Follow</a>
-                      {% else  %}
-                            <a href="#" class="btn btn-primary">Follow</a>
-                      {% endif %}
+                    <form action="{% url 'blog:add_follow' %}" method="post">
+                        {% csrf_token %}
+                      <input type="hidden" name='blog' value="{{ blog.id }}">
+                      <input type="hidden" name='unfollow' value="true">
+                        <button class="btn btn-primary"> UnFollow </button>
+                    </form>
                   {% endif %}
+
               {% endfor %}
+              {% else %}
+                  <form action="{% url 'blog:add_follow' %}" method="post">
+                    {% csrf_token %}
+                      <input type="hidden" name='blog' value="{{ blog.id }}">
+                      <input type="hidden" name='follow' value="true">
+
+                    <button class="btn btn-primary"> Follow </button>
+                  </form>
+              {% endif %}
 
           </div>
         </div>
