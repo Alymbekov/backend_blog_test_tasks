@@ -6,16 +6,5 @@
 
 {% block content %}
     <h1>All the Blog to which I am subscribed</h1>
-    {% for blog in object_list %}
-        <div class="row">
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{ blog.title }}</h5>
-            <a href="#" class="btn btn-primary">UnFollow</a>
-          </div>
-        </div>
-        </div>
-        <br>
-    {% endfor %}
-
+    {% include 'includes/follow.html'  %}
 {% endblock content %}

@@ -7,20 +7,15 @@
 {% block content %}
     <br>
     <div class="container">
-    <h1> All Feeds </h1>
-    {% for post in news %}
+        <center><h1> Blog Details </h1></center>
+        <h2>{{object.title|title}}:</h2>
+    {% for post in object.posts.all %}
         <div class="row">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.description|truncatechars:20 }}</p>
             <a href="#" class="btn btn-primary">Go to post</a>
-              <form action="{% url 'blog:post_read_view' %}" method="post">
-                  {% csrf_token %}
-                  <input type="hidden" name="status" value="true">
-                  <input type="hidden" name="post" value="{{ post.id }}">
-                  <input type="submit" value="In Read">
-              </form>
           </div>
         </div>
         </div>

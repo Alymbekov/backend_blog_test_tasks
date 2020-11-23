@@ -7,37 +7,7 @@
 {% block content %}
 
     <h1>All Blog </h1>
-    {% for blog in object_list %}
-        <div class="row">
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{ blog.title }}</h5>
-              {% if blog.follower_set.all %}
-              {% for follower in blog.follower_set.all %}
-                  {% if  user.username  ==  follower.user.username %}
-                    <form action="{% url 'blog:add_follow' %}" method="post">
-                        {% csrf_token %}
-                      <input type="hidden" name='blog' value="{{ blog.id }}">
-                      <input type="hidden" name='unfollow' value="true">
-                        <button class="btn btn-primary"> UnFollow </button>
-                    </form>
-                  {% endif %}
+    {% include 'includes/follow.html'  %}
 
-              {% endfor %}
-              {% else %}
-                  <form action="{% url 'blog:add_follow' %}" method="post">
-                    {% csrf_token %}
-                      <input type="hidden" name='blog' value="{{ blog.id }}">
-                      <input type="hidden" name='follow' value="true">
-
-                    <button class="btn btn-primary"> Follow </button>
-                  </form>
-              {% endif %}
-
-          </div>
-        </div>
-        </div>
-        <br>
-    {% endfor %}
 
 {% endblock content %}

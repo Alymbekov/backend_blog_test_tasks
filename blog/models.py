@@ -36,14 +36,22 @@ class Post(models.Model):
 class Follower(models.Model):
     """One user can have many
      subscriptions to his blog
-     and can subscribe to other blogs
+     and can subscribe to other blog
      """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers', verbose_name='author')
-    blog = models.ManyToManyField(PersonalBlog, verbose_name='blogs')
+    blog = models.ManyToManyField(PersonalBlog, verbose_name='blog')
 
     def __str__(self):
         return f'{self.user.username}'
 
+
+class PostsRead(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='posts_read')
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.user.username}-->{self.post.title}-->{self.is_read}'
 
 
 #TODO add signals to send message notifications
