@@ -32,6 +32,14 @@
       <li class="nav-item">
         <a class="nav-link {% if url_name == 'my_blog' %}active{% endif %}" href="{% url 'blog:my_blog' %}">My blog</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link {% if url_name == 'post_read_view' %}active{% endif %}" href="{% url 'blog:post_read_view' %}">Read Post</a>
+      </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link {% if url_name == 'post_create' %}active{% endif %}" href="{% url 'blog:post_create' %}">Create Post</a>
+              </li>
+            {% endif %}
         {% endwith %}
 
     </ul>

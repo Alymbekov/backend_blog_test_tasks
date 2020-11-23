@@ -1,0 +1,33 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block title %}
+    Post Reads
+{% endblock title %}
+
+
+{% block content %}
+
+    <div class="container">
+    <h1> Read Posts </h1>
+    {% for post in posts %}
+        <div class="row">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.post.title }}</h5>
+            <p class="card-text">{{ post.post.description|truncatechars:20 }}</p>
+              <form action="{% url 'blog:post_read_view' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="post" value="{{ post.post.id }}">
+                  <input type="hidden" name="status">
+                  <input type="submit" value="UnRead">
+              </form>
+          </div>
+        </div>
+        </div>
+        <br>
+    {% endfor %}
+    </div>
+
+{% endblock content %}
+
