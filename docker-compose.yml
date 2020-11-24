@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 1337:8000
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - DJANGO_ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_BACKEND=${CELERY_URL}
+    depends_on:
+      - redis
+
+  celery:
+    build: ./
+    command: celery -A main worker -l info
+    volumes:
+      - ./:/usr/src/app
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_URL=${CELERY_URL}
+    depends_on:
+      - web
+      - redis
+
+  dashboard:
+    build: ./
+    command: flower -A main --port=5555 --broker=localhost:6379.
+    ports:
+      - 5555:5555
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CELERY_BROKER=${CELERY_BROKER}
+      - CELERY_URL=${CELERY_URL}
+    depends_on:
+      - web
+      - redis
+      - celery
+
+  redis:
+    image: redis:5-alpine
+    restart: always
+    expose:
+      - '6379'
+    ports:
+      - '6379:6379'
