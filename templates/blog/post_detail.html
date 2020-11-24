@@ -1,0 +1,26 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+
+{% block title %} Post Detail {% endblock title %}
+
+
+{% block content %}
+    <br>
+    <div class="container">
+        <center><h1> Post Details </h1></center>
+        <h2>{{object.title|title}}:</h2>
+        <div class="row">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{ object.title }}</h5>
+            <p class="card-text">{{ object.description|truncatechars:20 }}</p>
+          </div>
+        </div>
+        </div>
+        <br>
+    </div>
+{% endblock content %}
+
+
+
+

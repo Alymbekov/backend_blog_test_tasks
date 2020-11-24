@@ -130,5 +130,9 @@ class PostReadView(LoginRequiredMixin, View):
             raise ValueError("Error")
 
 
+class PostDetailView(LoginRequiredMixin, DetailView):
+    template_name = 'blog/post_detail.html'
+    model = Post
+
 
 

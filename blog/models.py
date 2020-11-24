@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from blog.tasks import send_notification_to_followers_task
 
 User = get_user_model()
 
@@ -54,8 +58,8 @@ class PostsRead(models.Model):
         return f'{self.user.username}-->{self.post.title}-->{self.is_read}'
 
 
-#TODO add signals to send message notifications
-
-
+@receiver(post_save, sender=Post)
+def save_post(sender, instance, **kwargs):
+    send_notification_to_followers_task.delay(10, instance.id)
 
 
