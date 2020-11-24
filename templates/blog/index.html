@@ -14,7 +14,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.description|truncatechars:20 }}</p>
-            <a href="#" class="btn btn-primary">Go to post</a>
+            <a href="{% url 'blog:post_detail' post.id %}" class="btn btn-primary">Go to post</a>
               <form action="{% url 'blog:post_read_view' %}" method="post">
                   {% csrf_token %}
                   <input type="hidden" name="status" value="true">
