@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
+from django.db import transaction
 from django.dispatch import receiver
+from django.urls import reverse
 
 from blog.tasks import send_notification_to_followers_task
 
@@ -36,6 +38,9 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.title}-->{self.blog.title}'
 
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[str(self.id)])
+
 
 class Follower(models.Model):
     """One user can have many
@@ -60,6 +65,6 @@ class PostsRead(models.Model):
 
 @receiver(post_save, sender=Post)
 def save_post(sender, instance, **kwargs):
-    send_notification_to_followers_task.delay(10, instance.id)
+    transaction.on_commit(lambda: send_notification_to_followers_task.delay(10, instance.id))
 
 
