@@ -1,6 +1,7 @@
 from celery.decorators import task
 from celery.utils.log import get_task_logger, logger
 import time
+from main.settings import domain
 
 from .celery.send_new_feeds_mail import send_mail_to
 sleeplogger = get_task_logger(__name__)
@@ -10,8 +11,8 @@ sleeplogger = get_task_logger(__name__)
 def send_notification_to_followers_task(duration, obj_id):
     from blog.models import Post
     obj = Post.objects.get(id=int(obj_id))
-    subject = 'Celery'
-    message = f'My task done successfully'
+    subject = f'New post in {obj.blog.title}'
+    message = f'Hello new post link:{domain}{obj.get_absolute_url()}'
     is_task_completed = False
     error = ''
     receivers = []
@@ -26,6 +27,6 @@ def send_notification_to_followers_task(duration, obj_id):
     if is_task_completed:
         send_mail_to(subject, message, receivers)
     else:
-        send_mail_to(subject,error, receivers)
+        send_mail_to(subject, error, receivers)
     return('send_notification_to_followers_task done')
 
